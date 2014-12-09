@@ -69,11 +69,11 @@ class AmazonMobileSpider(CrawlSpider):
                 locallist2.append(local)
 
             item["techDetails"] = locallist2
-			
-			specialofferlist = []
-			specialoffercollection = spec.select('//div[@id="heroQuickPromo_feature_div"]//p/text()')
-			localspecial = ""
-			for i in range(len(specialoffercollection))
-			    
+            
+            specialofferlist = []
+            specialoffercollection = spec.select('//div[@id="heroQuickPromo_feature_div"]//p/text()')
+            localspecial = ""
+            for i in range(len(specialoffercollection))
+
         items.append(item)
         return items
