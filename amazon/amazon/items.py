@@ -34,3 +34,4 @@ class AmazonItem(scrapy.Item):
     value = scrapy.Field()
     url = scrapy.Field()
     specialOffer = scrapy.Field()
+    imageUrl = scrapy.Field()
