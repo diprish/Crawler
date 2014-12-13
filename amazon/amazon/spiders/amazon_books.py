@@ -18,6 +18,8 @@ class AmazonBooksSpider(CrawlSpider):
              follow=True),
         Rule(LinkExtractor(restrict_xpaths=('//div[@id="mainResults"]/div/h3[@class="newaps"]/a',)),
              callback="parse_page", follow=True),
+        Rule(LinkExtractor(restrict_xpaths=('//div[@id="bottomBar"]/div[@id="pagn"]/span[@class="pagnLink"]/a',)),
+             callback="follow_leaves", follow=True),
         # Opening the  show all links from base page of Books section
         # Rule(LinkExtractor(
         # restrict_xpaths=('//div[@class="acs-tiles-row"]//div[@class="acs-category-tile-shopall "]/a',)),
