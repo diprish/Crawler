@@ -9,7 +9,8 @@ class AmazonBooksSpider(CrawlSpider):
     name = "amazon_books"
     allowed_domains = ["amazon.in"]
     start_urls = (
-        'http://www.amazon.in/Books/b?ie=UTF8&node=976389031',
+        "http://www.amazon.in/b?ie=UTF8&node=4149761031",
+        # 'http://www.amazon.in/Books/b?ie=UTF8&node=976389031',
     )
 
     rules = [
@@ -51,18 +52,25 @@ class AmazonBooksSpider(CrawlSpider):
         return item
 
     def parse_secondary_page(self, response):
-        # speclist = response.xpath('//div[@id="a-page"]')
-        # #
-        # items = []
-        # for spec in speclist:
-        # item = AmazonItem()
-        # # item["model"] = spec.select('//h1[@id="title"]/span[@id="productTitle"]/text()').extract()
-        # item["url"] = response.url
-        # items.append(item)
         self.log("secondary:page")
         item = Books()
+
+        # Fetching Header level details
         item["title"] = response.xpath(
             '//div[@class="a-container"]//h1[@id="title"]/span[@id="productTitle"]/text()').extract()
+
+        subTitles = response.xpath(
+            '//div[@class="a-container"]//h1[@id="title"]/span[@class="a-size-medium a-color-secondary a-text-normal"]/text()')
+        localsubList = []
+        for j in range(len(subTitles)):
+            local = subTitles[j]
+            localsubList.append(local)
+
+        item["subTitle"] = localsubList
+
+        # Fetching Authors list
+        authors = response.xpath('//div[@class="a-container"]//div[@id="booksTitle"]//div[@id="byline"]/span/a/text()')
+
         self.log(item["title"])
         item["url"] = response.url
         return item

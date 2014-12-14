@@ -11,8 +11,7 @@ import scrapy
 class Books(scrapy.Item):
     title = scrapy.Field()
     url = scrapy.Field()
-    subTitle1 = scrapy.Field()
-    subTitle2 = scrapy.Field()
+    subTitle = scrapy.Field()
     author = scrapy.Field()
     stars = scrapy.Field()
     customerReviewsNo = scrapy.Field()
