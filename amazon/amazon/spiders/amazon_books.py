@@ -62,7 +62,8 @@ class AmazonBooksSpider(CrawlSpider):
         self.log("secondary:page")
         item = Books()
         item["title"] = response.xpath(
-            '//div[@class="buying"]//h1[@class="parseasinTitle"]/span/span/text()').extract()
+            '//div[@class="a-container"]//h1[@id="title"]/span[@id="productTitle"]/text()').extract()
+        self.log(item["title"])
         item["url"] = response.url
         return item
 
