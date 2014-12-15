@@ -16,12 +16,12 @@ class AmazonBooksSpider(CrawlSpider):
 
     rules = [
         # Getting links from base page of Books section
-        # Rule(LinkExtractor(restrict_xpaths=('//div[@class="acs-tiles-row"]//ul/li',)), callback="follow_leaves",
-        #      follow=True),
-        # Rule(LinkExtractor(restrict_xpaths=('//div[@id="mainResults"]/div/h3[@class="newaps"]/a',)),
-        #      callback="parse_page", follow=True),
-        # Rule(LinkExtractor(restrict_xpaths=('//div[@id="bottomBar"]/div[@id="pagn"]/span[@class="pagnLink"]/a',)),
-        #      callback="follow_leaves", follow=True),
+        Rule(LinkExtractor(restrict_xpaths=('//div[@class="acs-tiles-row"]//ul/li',)), callback="follow_leaves",
+             follow=True),
+        Rule(LinkExtractor(restrict_xpaths=('//div[@id="mainResults"]/div/h3[@class="newaps"]/a',)),
+             callback="parse_page", follow=True),
+        Rule(LinkExtractor(restrict_xpaths=('//div[@id="bottomBar"]/div[@id="pagn"]/span[@class="pagnLink"]/a',)),
+             callback="follow_leaves", follow=True),
         Rule(LinkExtractor(restrict_xpaths=(
             '//div[@id="center"]//div[@class="s-item-container"]//div[@class="a-row a-spacing-small"]/a',)),
              callback="parse_secondary_page", follow=True),
