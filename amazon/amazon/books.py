@@ -16,6 +16,7 @@ class Books(scrapy.Item):
     contribution = scrapy.Field()
     stars = scrapy.Field()
     customerReviewsNo = scrapy.Field()
+    rating = scrapy.Field()
     bookDescription = scrapy.Field()
     aboutTheAuthor = scrapy.Field()
     productDetailsLabel = scrapy.Field()

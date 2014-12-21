@@ -11,7 +11,7 @@ class AmazonBooksSpider(CrawlSpider):
     allowed_domains = ["amazon.in"]
     start_urls = (
         # "http://www.amazon.in/b?ie=UTF8&node=4149761031",
-        #"http://www.amazon.in/b?ie=UTF8&node=4149761031",
+        # "http://www.amazon.in/b?ie=UTF8&node=4149761031",
         'http://www.amazon.in/Books/b?ie=UTF8&node=976389031',
     )
 
@@ -22,7 +22,7 @@ class AmazonBooksSpider(CrawlSpider):
         Rule(LinkExtractor(restrict_xpaths=('//div[@id="mainResults"]/div/h3[@class="newaps"]/a',)),
              callback="parse_page", follow=True),
         Rule(LinkExtractor(restrict_xpaths=('//div[@id="bottomBar"]/div[@id="pagn"]/span[@class="pagnLink"]/a',)),
-        callback="follow_leaves", follow=True),
+             callback="follow_leaves", follow=True),
         Rule(LinkExtractor(restrict_xpaths=(
             '//div[@id="center"]//div[@class="s-item-container"]//div[@class="a-row a-spacing-small"]/a',)),
              callback="parse_secondary_page", follow=True),
@@ -63,8 +63,12 @@ class AmazonBooksSpider(CrawlSpider):
         temp_list = []
         count = 0
         # for price_item in price_details:
-        column_text = response.xpath('//div[@class="a-box-inner"]//div[@id="buyNewInner"]//div[@id="buyBoxInner"]//ul/li//span[@class="a-color-secondary"]/text()').extract()[0]
-        column_value = response.xpath('//div[@class="a-box-inner"]//div[@id="buyNewInner"]//div[@id="buyBoxInner"]//ul/li//span[@class="a-color-secondary a-text-strike"]/text()').extract()[0]
+        column_text = response.xpath(
+            '//div[@class="a-box-inner"]//div[@id="buyNewInner"]//div[@id="buyBoxInner"]//ul/li//span[@class="a-color-secondary"]/text()').extract()[
+            0]
+        column_value = response.xpath(
+            '//div[@class="a-box-inner"]//div[@id="buyNewInner"]//div[@id="buyBoxInner"]//ul/li//span[@class="a-color-secondary a-text-strike"]/text()').extract()[
+            0]
         temp_list.append(column_text)
         temp_list.append(column_value)
         item["mrp"] = temp_list
@@ -94,6 +98,11 @@ class AmazonBooksSpider(CrawlSpider):
         # Fetching product details
         item["productDetailsLabel"] = response.selector.xpath(
             '//div[@id="detail_bullets_id"]//div[@class="content"]/ul/li/b/text()').extract()
+
+        # Customer Reviews
+        item["customerReviewsNo"] = response.xpath(
+            '//div[@id="averageCustomerReviews"]/a[@id="acrCustomerReviewLink"]/span[@id="acrCustomerReviewText"]/text()').extract()
+        item["rating"] = response.xpath('//div[@id="averageCustomerReviews"]/span[@id="acrPopover"]/@title').extract()
 
         local_product_details_value = []
 
