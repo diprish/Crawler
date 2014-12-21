@@ -21,3 +21,9 @@ class Books(scrapy.Item):
     productDetailsLabel = scrapy.Field()
     productDetailsValue = scrapy.Field()
     review = scrapy.Field()
+    # mrp
+    mrp = scrapy.Field()
+    price = scrapy.Field()
+    sale = scrapy.Field()
+    inStock = scrapy.Field()
+    giftWrapAvailable = scrapy.Field()
