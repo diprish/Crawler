@@ -110,15 +110,17 @@ class JewellerySpider(CrawlSpider):
 
         # Fetching images
         image_container = []
+        image_details = []
         image_container_sel = response.xpath('//ul[@class="clearfix"]/li/a')
         for image_object in image_container_sel:
             image_title = image_object.xpath('./@title').extract()
             image_src = image_object.xpath('./img/@src').extract()
             image_alt = image_object.xpath('./img/@alt').extract()
-            # image_container.append([image_title, image_src, image_alt])
             image_container.append(image_src)
-            # image_container.append(image_alt)
-        item["image_urls"] = image_container[0]
+            image_details.append([image_title, image_src, image_alt])
+
+        item["image_details"] = image_details
+        item["image_urls"] = image_container
         # item["image_urls"] = image_container
         items.append(item)
         return items

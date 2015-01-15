@@ -29,4 +29,5 @@ class BluestoneItem(scrapy.Item):
 
     image_urls = scrapy.Field()
     images = scrapy.Field()
-    local_image = scrapy.Field()
+    image_details = scrapy.Field()
+    image_paths = scrapy.Field()
