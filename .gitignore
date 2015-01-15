@@ -98,3 +98,9 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Images
+*.json
+*.txt
+*.jpeg
+*.jpg
