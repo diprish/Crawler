@@ -19,7 +19,7 @@ class BluestoneItem(scrapy.Item):
     diamond_quality_options = scrapy.Field()
     line_product_details = scrapy.Field()
     stone_details = scrapy.Field()
-    sub_category = scrapy.Field()
+
     # diamond details
     metal_detail_type = scrapy.Field()
 
@@ -31,4 +31,3 @@ class BluestoneItem(scrapy.Item):
     images = scrapy.Field()
     image_details = scrapy.Field()
     image_paths = scrapy.Field()
-    image_title = scrapy.Field()

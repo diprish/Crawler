@@ -7,10 +7,10 @@ from bluestone.items import BluestoneItem
 
 
 class JewellerySpider(CrawlSpider):
-    name = 'jewellery'
+    name = 'jewellerya'
     allowed_domains = ['www.bluestone.com']
     start_urls = ['http://www.bluestone.com/all-jewellery.html?sortby=mostpopular&ref=Menu_AllJewellery', ]
-    # start_urls = ['http://www.bluestone.com/design-your-own-diamond-ring?execution=e1s1', ]
+    # "http://www.bluestone.com/jewellery/rings.html?preferredProducts=504,1065,1100,2927,4412,4725&ref=Category_Rings_All",]
 
     rules = (
         Rule(LinkExtractor(restrict_xpaths=('//div[@id="content-column"]//ul/li/a',)), follow=True),
@@ -27,29 +27,10 @@ class JewellerySpider(CrawlSpider):
 
         for top_right_detail_sel in top_right_panel_sel:
             # Fetching Top Right Panel details
-            title_val = top_right_detail_sel.xpath('//h1/text()').extract()
-            item["title"] = title_val
-            if 'Ring' in title_val[0]:
-                item["sub_category"] = 'RING'
-            elif 'Pendant' in title_val[0]:
-                item["sub_category"] = 'PENDANT'
-            elif 'Earring' in title_val[0]:
-                item["sub_category"] = 'EARRING'
-            elif 'Bangle' in title_val[0]:
-                item["sub_category"] = 'BANGLE'
-            elif 'Bracelet' in title_val[0]:
-                item["sub_category"] = 'BRACELET'
-            elif 'Necklace' in title_val[0]:
-                item["sub_category"] = 'NECKLACE'
-            elif 'Tanmaniya' in title_val[0]:
-                item["sub_category"] = 'TANMANIYA'
-            elif 'Nose Pin' in title_val[0]:
-                item["sub_category"] = 'NOSE PIN'
-            elif 'Band' in title_val[0]:
-                item["sub_category"] = 'RING'
-
+            item["title"] = top_right_detail_sel.xpath('//h1/text()').extract()
             item["product_code"] = top_right_detail_sel.xpath('//div[@id="product-code"]/text()').extract()
-            currency = top_right_detail_sel.xpath('//div[@class="price-wrapper"]//span[@class="WebRupee"]/text()').extract()
+            currency = top_right_detail_sel.xpath(
+                '//div[@class="price-wrapper"]//span[@class="WebRupee"]/text()').extract()
             price = top_right_detail_sel.xpath(
                 '//div[@class="price-wrapper"]//span[@id="our_price_display"]/text()').extract()
             item["price"] = currency + price
@@ -57,13 +38,18 @@ class JewellerySpider(CrawlSpider):
 
         # Price Breakup
         price_breakup = {}
+        # price_breakup = {"rahul": "kadam"}
         price_breakup_sel = top_right_detail_sel.xpath('//div[@id="price-breakup"]')
-
         for price_item_sel in price_breakup_sel:
             # price_breakup = {"rahul": "pict"}
-            price_breakup_title = raw_input(price_item_sel.xpath('/div[@class="item-type-title"]/text()').extract())
-            price_breakup_price = raw_input(price_item_sel.xpath('/div[@class="item-type-price"]/text()').extract())
-            price_breakup[price_breakup_title] = price_breakup_price
+            price_breakup_title = price_item_sel.xpath('/div[@class="item-type-title"].text()').extract()
+            price_breakup_price = price_item_sel.xpath('/div[@class="item-type-price"].text()').extract()
+            # price_breakup_value = "".join(price_breakup_list)
+            # local_price_var = {price_breakup_title, price_breakup_price}
+            # price_breakup.append(local_price_var)
+            price_breakup[price_breakup_title]= price_breakup_price
+            # price_breakup = {"rahul": "baner"}
+
         # price_breakup = {"rahul":"kadam"}
         item["price_breakup"] = price_breakup
 
@@ -102,6 +88,7 @@ class JewellerySpider(CrawlSpider):
 
         # Fetching Diamond details
         stone_details = {}
+        stone_name
         for stone_detail_sel in response.xpath('//section[@id="stone-details"]'):
             stone_name = stone_detail_sel.xpath('./h2[@class="title"]/text()').extract()[0]
         stone_details["Title"] = stone_name
@@ -133,7 +120,6 @@ class JewellerySpider(CrawlSpider):
         # Fetching images
         image_container = []
         image_details = []
-        image_title = []
 
         image_container_sel = response.xpath('//ul[@class="clearfix"]/li/a')
         for image_object in image_container_sel:
@@ -143,13 +129,16 @@ class JewellerySpider(CrawlSpider):
             image_big = image_object.xpath('./@href').extract()
             image_medium = image_object.xpath('./@rel').extract()[0].split(',')[1].split(':', 1)[1].strip().replace("'",
                                                                                                                     "").split()
-            #image_container.append(image_big)
+            image_container.append(image_big)
             image_container.append(image_medium)
-            #image_container.append(image_src)
-            #image_details.append([image_title, image_alt, image_big])
-            image_details.append([image_title, image_alt, image_medium])
-            #image_details.append([image_title, image_alt, image_src])
+            print '************'
+            print image_medium
+            print image_big
+            print image_src
+            image_container.append(image_src)
+            image_details.append([image_title, image_alt])
         item["image_details"] = image_details
+        item["image_urls"] = image_container
         item["image_urls"] = image_container
         items.append(item)
         return items

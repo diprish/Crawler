@@ -13,7 +13,6 @@ BOT_NAME = 'bluestone'
 SPIDER_MODULES = ['bluestone.spiders']
 NEWSPIDER_MODULE = 'bluestone.spiders'
 ITEM_PIPELINES = {'bluestone.images.BlueStoneImagesPipeline': 1}
-# IMAGES_STORE = 'C:/Crawler/bluestone'
-IMAGES_STORE = '/root/diprish/Crawler/bluestone'
+IMAGES_STORE = 'C:/Crawler/bluestone'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bluestone (+http://www.yourdomain.com)'
